@@ -3,181 +3,261 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Budget Tracker</title>
+<title>Budget Tracker e-wallet</title>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#3b82f6">
-<link rel="icon" href="icon-192.png" sizes="192x192" type="image/png">
+<meta name="theme-color" content="#4f46e5">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
-:root {
-    --bg: #0f172a;
-    --card: #1e293b;
-    --text-main: #f1f5f9;
-    --text-sub: #94a3b8;
-    --primary: #3b82f6;
-    --danger: #ef4444;
-    --border: #334155;
-}
 body {
-    font-family: 'Inter', -apple-system, sans-serif;
-    background: var(--bg);
-    color: var(--text-main);
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    padding: 50px 20px;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #0d0d0d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
+
 .container {
-    background: var(--card);
-    padding: 30px;
-    border-radius: 16px;
-    width: 100%;
-    max-width: 380px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  width: 400px;
+  background: #1a1a1a;
+  border-radius: 25px;
+  padding: 30px 25px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
-h2 {
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-sub);
-    margin: 0 0 10px 0;
+
+.header {
+  text-align: center;
 }
+
+.header h1 {
+  font-size: 24px;
+  color: #fff;
+  margin-bottom: 5px;
+}
+
 .total-box {
-    font-size: 2.4rem;
-    font-weight: 800;
-    margin-bottom: 30px;
-    color: var(--text-main);
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  font-size: 2.5rem;
+  font-weight: 700;
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.4);
 }
-.input-section { margin-bottom: 25px; }
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 input {
-    width: 100%;
-    box-sizing: border-box;
-    margin-bottom: 12px;
-    padding: 14px;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    font-size: 1rem;
-    background: #0f172a;
-    color: var(--text-main);
-    outline: none;
-    transition: border 0.2s;
+  padding: 14px 15px;
+  border-radius: 12px;
+  border: 1px solid #444;
+  font-size: 14px;
+  box-sizing: border-box;
+  background: #2a2a2a;
+  color: #fff;
+  transition: 0.3s;
 }
-input:focus { border-color: var(--primary); background: #020617; }
+
+input::placeholder {
+  color: #bbb;
+}
+
+input:focus {
+  outline: none;
+  border-color: #764ba2;
+  box-shadow: 0 0 8px rgba(118,75,162,0.5);
+}
+
 .button-row {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 30px;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
 }
+
 button {
-    padding: 14px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 0.9rem;
-    transition: transform 0.1s, opacity 0.2s;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 0;
+  border-radius: 12px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s;
 }
-.btn-add { background: var(--primary); color: white; flex: 2; }
-.btn-clear { background: #334155; color: var(--text-sub); flex: 1; font-size: 0.75rem; }
-button:active { transform: scale(0.98); }
-button:hover { opacity: 0.9; }
-ul { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--border); }
-li {
-    padding: 15px 5px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+.btn-add {
+  background: #667eea;
+  color: #fff;
 }
-.item-label { display: flex; align-items: center; gap: 10px; font-weight: 500; }
-.dot { color: var(--primary); font-size: 0.6rem; }
-.amt-label { font-weight: 700; color: var(--text-main); }
+
+.btn-add:hover {
+  background: #5a67d8;
+}
+
+.btn-clear {
+  background: #333;
+  color: #fff;
+}
+
+.btn-clear:hover {
+  background: #444;
+}
+
+.expense-list {
+  max-height: 200px;
+  overflow-y: auto;
+  border-radius: 12px;
+  background: #222;
+  padding: 10px;
+}
+
+.expense-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 8px;
+  border-bottom: 1px solid #444;
+  font-size: 14px;
+  color: #fff;
+}
+
 .delete-btn {
-    color: #94a3b8;
-    cursor: pointer;
-    margin-left: 12px;
-    font-size: 1rem;
+  color: #999;
+  cursor: pointer;
+  transition: 0.3s;
 }
-.delete-btn:hover { color: var(--danger); }
+
+.delete-btn:hover {
+  color: #e53e3e;
+}
+
+#resultBox {
+  text-align: center;
+  padding: 15px;
+  border-radius: 15px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #fff;
+}
+
+.safe {
+  background: #48bb78;
+}
+
+.deficit {
+  background: #f56565;
+}
 </style>
 </head>
+
 <body>
-
 <div class="container">
-    <h2>Available Balance</h2>
-    <div class="total-box">P<span id="t">0.00</span></div>
-    
-    <div class="input-section">
-        <input type="text" id="k" placeholder="Item Name">
-        <input type="number" id="v" placeholder="Amount">
-    </div>
+  <div class="header">
+    <h1>Budget Tracker</h1>
+  </div>
 
-    <div class="button-row">
-        <button class="btn-add" onclick="addItem()">+ ADD ITEM</button>
-        <button class="btn-clear" onclick="resetAll()">CLEAR</button>
-    </div>
+  <div class="total-box">P<span id="t">0.00</span></div>
 
-    <ul id="l"></ul>
+  <div class="inputs">
+    <input type="text" id="k" placeholder="Item Name">
+    <input type="number" id="v" placeholder="Amount">
+    <input type="number" id="wallet" placeholder="E-Wallet Balance">
+  </div>
+
+  <div class="button-row">
+    <button class="btn-add" onclick="addItem()"><i class="fas fa-plus"></i> Add</button>
+    <button class="btn-clear" onclick="resetAll()"><i class="fas fa-trash"></i> Reset</button>
+    <button class="btn-clear" onclick="predictBudget()"><i class="fas fa-chart-line"></i> Predict</button>
+  </div>
+
+  <ul class="expense-list" id="l"></ul>
+  <div id="resultBox"></div>
 </div>
 
 <script>
-const SB_URL = "https://plnrcgjhdnjnflddxbzb.supabase.co";
-const SB_KEY = "sb_publishable_Krwxc5kBmDIWWNKIihkWPg_O1Nq6Cjw";
+const SB_URL="https://tsrqbjqtmvfwmlkcbmnv.supabase.co";
+const SB_KEY="sb_publishable_K1_ccu4JHHehoO18J5vxOg_9JnHbhW3";
 const sb = supabase.createClient(SB_URL, SB_KEY);
 
-const totalEl = document.getElementById('t'),
-      listEl = document.getElementById('l'),
-      nameInp = document.getElementById('k'),
-      amtInp = document.getElementById('v');
+const totalEl = document.getElementById('t');
+const listEl = document.getElementById('l');
+const nameInp = document.getElementById('k');
+const amtInp = document.getElementById('v');
 
 async function showData() {
-    let { data, error } = await sb.from('budget-db').select('*');
-    if (error) return console.log(error);
-    listEl.innerHTML = "";
-    let total = 0;
-    data.forEach(item => {
-        total += item.amount;
-        let li = document.createElement('li');
-        li.innerHTML = `
-            <span class="item-label"><i class="fas fa-circle dot"></i> ${item.item}</span>
-            <span>
-                <span class="amt-label">P${item.amount.toFixed(2)}</span>
-                <i class="fas fa-times-circle delete-btn" onclick="deleteItem(${item.id})"></i>
-            </span>
-        `;
-        listEl.appendChild(li);
-    });
-    totalEl.innerText = total.toLocaleString(undefined, {minimumFractionDigits: 2});
+  const { data, error } = await sb.from('budgetDB').select('*').order('id');
+  if(error) return console.error(error);
+
+  listEl.innerHTML = "";
+  let total = 0;
+  data.forEach(item => {
+    total += parseFloat(item.amount);
+    const li = document.createElement('li');
+    li.innerHTML = `<span>${item.item}</span>
+      <span>P${parseFloat(item.amount).toFixed(2)}
+      <i class="fas fa-times delete-btn" onclick="deleteItem(${item.id})"></i></span>`;
+    listEl.appendChild(li);
+  });
+  totalEl.innerText = total.toFixed(2);
 }
 
 async function addItem() {
-    const name = nameInp.value;
-    const amount = parseFloat(amtInp.value);
-    if (name && amount > 0) {
-        const { error } = await sb.from('budget-db').insert([{ item: name, amount }]);
-        if (!error) { nameInp.value=''; amtInp.value=''; showData(); }
-    }
+  const name = nameInp.value;
+  const amount = parseFloat(amtInp.value);
+  if(!name || amount <= 0) return;
+  await sb.from('budgetDB').insert([{ item:name, amount:amount }]);
+  nameInp.value = "";
+  amtInp.value = "";
+  showData();
 }
 
 async function deleteItem(id) {
-    await sb.from('budget-db').delete().eq('id', id);
-    showData();
+  await sb.from('budgetDB').delete().eq('id', id);
+  showData();
 }
 
 async function resetAll() {
-    if(confirm("Delete all history?")) {
-        await sb.from('budget-db').delete().neq('id', 0);
-        showData();
-    }
+  if(confirm("Delete all history?")) {
+    await sb.from('budgetDB').delete().neq('id', 0);
+    showData();
+  }
 }
 
-showData();
+async function predictBudget() {
+  const wallet = parseFloat(document.getElementById('wallet').value || 0);
+  const { data } = await sb.from('budgetDB').select('*');
+  let totalExpenses = 0;
+  data.forEach(i => totalExpenses += parseFloat(i.amount));
 
-if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("service-worker.js");
+  const remaining = wallet - totalExpenses;
+  const status = remaining < 0 ? "Budget Deficit" : "Budget Safe";
+
+  const resultBox = document.getElementById('resultBox');
+  resultBox.className = status === "Budget Safe" ? "safe" : "deficit";
+  resultBox.innerHTML = `
+    Wallet: P${wallet.toFixed(2)}<br>
+    Expenses: P${totalExpenses.toFixed(2)}<br>
+    Remaining: P${remaining.toFixed(2)}<br>
+    ${status}
+  `;
 }
+
+window.onload = showData;
 </script>
-
 </body>
 </html>
