@@ -176,7 +176,7 @@ button {
   <div class="inputs">
     <input type="text" id="k" placeholder="Item Name">
     <input type="number" id="v" placeholder="Amount">
-    <input type="number" id="wallet" placeholder="E-Wallet Balance">
+    <input type="number" id="wallet" placeholder="Balance">
   </div>
 
   <div class="button-row">
@@ -245,7 +245,7 @@ async function predictBudget() {
   data.forEach(i => totalExpenses += parseFloat(i.amount));
 
   const remaining = wallet - totalExpenses;
-  const status = remaining < 0 ? "Budget Deficit" : "Budget Safe";
+  const status = remaining < 0 ? "Short budget" : "Budget Safe";
 
   const resultBox = document.getElementById('resultBox');
   resultBox.className = status === "Budget Safe" ? "safe" : "deficit";
@@ -261,3 +261,4 @@ window.onload = showData;
 </script>
 </body>
 </html>
+
