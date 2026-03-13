@@ -190,8 +190,8 @@ button {
 </div>
 
 <script>
-const SB_URL="https://tsrqbjqtmvfwmlkcbmnv.supabase.co";
-const SB_KEY="sb_publishable_K1_ccu4JHHehoO18J5vxOg_9JnHbhW3";
+const SB_URL="https://plnrcgjhdnjnflddxbzb.supabase.co";
+const SB_KEY="sb_publishable_Krwxc5kBmDIWWNKIihkWPg_O1Nq6Cjw";
 const sb = supabase.createClient(SB_URL, SB_KEY);
 
 const totalEl = document.getElementById('t');
@@ -200,7 +200,7 @@ const nameInp = document.getElementById('k');
 const amtInp = document.getElementById('v');
 
 async function showData() {
-  const { data, error } = await sb.from('budgetDB').select('*').order('id');
+  const { data, error } = await sb.from('budget-db').select('*').order('id');
   if(error) return console.error(error);
 
   listEl.innerHTML = "";
@@ -220,27 +220,27 @@ async function addItem() {
   const name = nameInp.value;
   const amount = parseFloat(amtInp.value);
   if(!name || amount <= 0) return;
-  await sb.from('budgetDB').insert([{ item:name, amount:amount }]);
+  await sb.from('budget-db').insert([{ item:name, amount:amount }]);
   nameInp.value = "";
   amtInp.value = "";
   showData();
 }
 
 async function deleteItem(id) {
-  await sb.from('budgetDB').delete().eq('id', id);
+  await sb.from('budget-db').delete().eq('id', id);
   showData();
 }
 
 async function resetAll() {
   if(confirm("Delete all history?")) {
-    await sb.from('budgetDB').delete().neq('id', 0);
+    await sb.from('budget-db').delete().neq('id', 0);
     showData();
   }
 }
 
 async function predictBudget() {
   const wallet = parseFloat(document.getElementById('wallet').value || 0);
-  const { data } = await sb.from('budgetDB').select('*');
+  const { data } = await sb.from('budget-db').select('*');
   let totalExpenses = 0;
   data.forEach(i => totalExpenses += parseFloat(i.amount));
 
@@ -261,4 +261,5 @@ window.onload = showData;
 </script>
 </body>
 </html>
+
 
